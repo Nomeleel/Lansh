@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="zh-cn" Name="LanshVoiceCommandSet_zh-cn">
+    <AppName>杂货店</AppName>
+    <Example>推荐一些搞笑的视频</Example>
+
+    <Command Name="recommendVideo">
+      <Example>推荐五个搞笑的视频</Example>
+      <ListenFor>推荐{number}个{*}[的]视频</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">{key}[的]</ListenFor>
+      <Feedback>正在努力获取...</Feedback>
+      <VoiceCommandService Target="LanshVoiceCommandService"/>
+    </Command>
+
+    <Command Name="oneOne">
+      <Example>来点正能量</Example>
+      <ListenFor>来点{size}[份的]心灵鸡汤[吧]</ListenFor>
+      <ListenFor>来点干货[吧]</ListenFor>
+      <ListenFor RequireAppName="ExplicitlySpecified">来点干货[吧]{builtin:AppName}</ListenFor>
+      <ListenFor>来点正能量[吧]</ListenFor>
+      <ListenFor RequireAppName="ExplicitlySpecified">来点正能量[吧]{builtin:AppName}</ListenFor>
+      <Feedback>正能量还有3秒到达战场...</Feedback>
+      <VoiceCommandService Target="LanshVoiceCommandService"/>
+    </Command>
+
+    <Command Name="Start">
+      <Example>启动杂货店</Example>
+      <ListenFor RequireAppName="ExplicitlySpecified">帮我启动{builtin:AppName}[吧]</ListenFor>
+      <ListenFor RequireAppName="ExplicitlySpecified">启动解忧{builtin:AppName}</ListenFor>
+      <ListenFor>召唤神龙</ListenFor>
+      <Feedback>启动超级变化形态...</Feedback>
+      <Navigate Target="OpenLansh"/>
+    </Command>
+    
+    <Command Name="searchVideo">
+      <Example>搜索搞笑的视频</Example>
+      <ListenFor RequireAppName="BeforePhrase">搜索{key}[的视频]</ListenFor>
+      <Feedback>正在获取{key}的视频</Feedback>
+      <Navigate Target="LanshVoiceCommandService"/>
+    </Command>
+
+    <PhraseList Label="number">
+      <Item>五</Item>
+    </PhraseList>
+    
+    <PhraseList Label="key">
+      <Item>搞笑</Item>
+      <Item>好玩</Item>
+    </PhraseList>
+    
+    <PhraseList Label="size">
+      <Item>大</Item>
+      <Item>中</Item>
+      <Item>小</Item>
+    </PhraseList>
+  </CommandSet>
+</VoiceCommands>

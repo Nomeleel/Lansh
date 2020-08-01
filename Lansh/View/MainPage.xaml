@@ -1,0 +1,158 @@
+﻿<Page
+    x:Name="Main"
+    x:Class="Lansh.View.MainPage"
+    xmlns:Model="using:Lansh.Model"
+    xmlns:View="using:Lansh.View"
+    xmlns:TelerikPrimatives="using:Telerik.UI.Xaml.Controls.Primitives"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <Binding Path="Main" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
+    
+    <Page.Resources>
+
+    </Page.Resources>
+
+    <Grid Background="#FFFAFAFC">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Size">
+                <VisualState x:Name="Large">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainSplitView.DisplayMode" Value="CompactInline"/>
+                        <Setter Target="MainSplitView.IsPaneOpen" Value="True"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Middle">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowSnapPoint}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainSplitView.DisplayMode" Value="CompactOverlay"/>
+                        <Setter Target="MainSplitView.IsPaneOpen" Value="False"/>
+                        <Setter Target="ToggleMenuButton.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainSplitView.DisplayMode" Value="Overlay"/>
+                        <Setter Target="MainSplitView.IsPaneOpen" Value="False"/>
+                        <Setter Target="ToggleMenuButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="SplitViewBorder.Visibility" Value="Collapsed"/>
+                        <Setter Target="MainSplitView.OpenPaneLength" Value="280"/>
+                        <Setter Target="SidebarAvatarPanel.Visibility" Value="Visible"/>
+                        <Setter Target="SidebarDockPanel.Visibility" Value="Visible"/>
+                        <Setter Target="MenuDockPanel.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState>
+
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <SplitView x:Name="MainSplitView" Grid.Row="1" OpenPaneLength="200" DisplayMode="CompactInline">
+            <SplitView.Pane>
+                <Grid Background="#FFF3F3F5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border x:Name="SplitViewBorder" Grid.Column="1" Grid.RowSpan="3" BorderBrush="{ThemeResource BorderBrush}" BorderThickness="0 0 1 0"/>
+                    <AppBarButton x:Name="ToggleMenuButton" Style="{StaticResource HamburgIcon}"/>
+                    <StackPanel x:Name="SidebarAvatarPanel" Height="180" Visibility="Collapsed" BorderBrush="#11000000" BorderThickness="0,0,0,1">
+                        <StackPanel.Background>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/Images/SidebarTopPanel.jpg"/>
+                        </StackPanel.Background>
+                        <Ellipse Width="62" Height="62" StrokeThickness="2" Stroke="{ThemeResource SystemControlForegroundAccentBrush}" Margin="20, 80, 0, 0" HorizontalAlignment="Left">
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="Uniform" ImageSource="ms-appx:///Assets/Images/Avatar.jpg"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </StackPanel>
+                    <ListView x:Name="NavMenuList" Grid.Row="1" ItemsSource="{Binding NavList}" SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="Model:NavMenuItem">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon x:Name="Glyph" FontFamily="Segoe MDL2 Assets" FontSize="16" Glyph="{x:Bind SymbolAsChar}" ToolTipService.ToolTip="{x:Bind Label}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0"/>
+                                    <TextBlock x:Name="Text" Grid.Column="1" Text="{x:Bind Label}" Style="{StaticResource BodyTextBlockStyle}" FontSize="13" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Grid x:Name="MenuDockPanel" Grid.Row="2" Height="60" BorderThickness="0 1 0 1" BorderBrush="#11000000" VerticalAlignment="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Width="25" Height="25" x:Name="HeadImage" Margin="12.5">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="http://p1.music.126.net/xk5By7G1Y1C_f0gi-46CSQ==/3295236358697319.jpg" Stretch="Fill"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock x:Name="Id" Grid.Column="1" Text="解忧杂货店..." FontSize="12" MaxWidth="73" Foreground="#FF333333" VerticalAlignment="Center"/>
+                        <AppBarButton x:Name="Message" Grid.Column="2" Style="{StaticResource MailIcon}" Width="33" VerticalAlignment="Center"/>
+                        <AppBarButton x:Name="Setting" Grid.Column="3" Style="{StaticResource SettingIcon}" Width="33" VerticalAlignment="Center"/>
+                    </Grid>
+                    <StackPanel x:Name="SidebarDockPanel" Grid.Row="2" Height="50" BorderBrush="#11000000" BorderThickness="0,1,0,0" VerticalAlignment="Bottom" Orientation="Horizontal" Visibility="Collapsed">
+                        <AppBarButton Style="{StaticResource QuietHoursIcon}" Width="110" Label="夜间模式"/>
+                        <AppBarButton Style="{StaticResource SettingIcon}" Width="85" Label="设置" />
+                        <AppBarButton Style="{StaticResource PowerIcon}" Width="85" Label="退出" />
+                    </StackPanel>
+                </Grid>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Grid>
+                    <Frame x:Name="ShellFrame">
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition>
+                                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                    <!--<ContinuumNavigationTransitionInfo/>-->
+                                    <!--<CommonNavigationTransitionInfo/>-->
+                                    <!--<DrillInNavigationTransitionInfo/>-->
+                                    <!--<EntranceNavigationTransitionInfo/>-->
+                                    <!--<SlideNavigationTransitionInfo/>-->
+                                    <SuppressNavigationTransitionInfo/>
+                                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                            </NavigationThemeTransition>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
+                </Frame>
+                    <ProgressRing x:Name="Busy" IsActive="False" Width="50" Height="50" Foreground="{StaticResource OfficialColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+            </SplitView.Content>
+        </SplitView>
+        <Grid x:Name="Toast" Grid.RowSpan="2" CornerRadius="15" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Width="270" Height="170" Source="ms-appx:///Assets/Images/NetworkError.png" Stretch="Uniform"/>
+        </Grid>
+    </Grid>
+</Page>

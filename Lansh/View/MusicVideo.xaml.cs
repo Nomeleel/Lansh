@@ -1,0 +1,46 @@
+﻿using GalaSoft.MvvmLight.Messaging;
+using Lansh.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+
+namespace Lansh.View
+{
+
+    public sealed partial class MusicVideo : Page
+    {
+        public MusicVideoViewModel ViewModel = new MusicVideoViewModel();
+
+        public MusicVideo()
+        {
+            this.InitializeComponent();
+            RegisterEvent();
+        }
+
+        /// <summary>
+        /// Register all event
+        /// </summary>
+        private void RegisterEvent()
+        {
+            MusicVideoGV.ItemClick += MusicVideoGV_ItemClick;
+        }
+
+        private void MusicVideoGV_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Model.Mv mv = e.ClickedItem as Model.Mv;
+            //mv.Comment = "lclcl";//@"E8C4EA3B185998031030633EE8255315784B3A9CDCFA389AA721D0A8AEDC37253EEE3065B7C1CB1D9F26DC9B7E94DA75DDC7A61FCA0D933933E19BC78DC62528D2B3E529FBF7C01C3004CC6EF6A0B8C6C215E77B9C4B980AE9BBCF7032EFF8088BFD2742EDD5A79364007DC4CFE92C761D52C6A9EF7477B31C65EC5390E5F0B938FFDB3C4AA5DD509698610C716B0094269EAA37CDAE6F646CFC098B06ACEBADC683EA02546CAE9208D495F2E7D181F23D37C04B0963FEC59355AB083BD7AEE71DFC9C92CF80A1E6D6CA25826A693C66E7D2229CD56F6DC4B87535B69DE2E51BAF9F332F43695F5095ABFA8D429F8D1392BA110488E7E3416FFA721ACC6AEF2E6535DBD515CE7C5FEA0CD5D2DA5EBDE3A01B2ADD01E22D199E253EB5A943D5A367E28C9FD9AC157A873D2F66FBCFC9C54C1B44E16881842075B43E8F33B69FB611BEFD9FDC5746E51B022BC8926D1FA400E14252931218D707BA2282D214FF3DD0D767958E03D1CC4C201ECE653BF11598EC4726226325C5EFA9E303438DFD3F303243ABEF261876D830C82C256B925BBE40E61A25F7C2CFD287D6474801B8572B86D07C1B599235699D03FB25BEAE022ACA4CE04292B7D366EC5298A719AF83DECB5E97284D4BD500075831F22AAF9A56C09FAAC1C18660E21E51F54835A9B355AEECF36F34F64AD8D21D19C49E60B48BF1AE8BC10D213DEABD8DE4B0F8C48B";
+            Messenger.Default.Send<Object>(mv, "RootFrameNavigatedTo");
+        }
+    }
+}
